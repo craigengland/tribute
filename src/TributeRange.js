@@ -524,19 +524,19 @@ class TributeRange {
             coordinates.left = 'auto'
         }
 
-        let parentHeight = this.tribute.menuContainer
-            ? this.tribute.menuContainer.offsetHeight
-            : this.getDocument().body.offsetHeight
+        // let parentHeight = this.tribute.menuContainer
+        //     ? this.tribute.menuContainer.offsetHeight
+        //     : this.getDocument().body.offsetHeight
 
-        if (menuIsOffScreen.bottom) {
-            let parentRect = this.tribute.menuContainer
-                ? this.tribute.menuContainer.getBoundingClientRect()
-                : this.getDocument().body.getBoundingClientRect()
-            let scrollStillAvailable = parentHeight - (windowHeight - parentRect.top)
+        // if (menuIsOffScreen.bottom) {
+        //     let parentRect = this.tribute.menuContainer
+        //         ? this.tribute.menuContainer.getBoundingClientRect()
+        //         : this.getDocument().body.getBoundingClientRect()
+        //     let scrollStillAvailable = parentHeight - (windowHeight - parentRect.top)
 
-            coordinates.bottom = scrollStillAvailable + (windowHeight - rect.top - span.offsetTop)
-            coordinates.top = 'auto'
-        }
+        //     coordinates.bottom = scrollStillAvailable + (windowHeight - rect.top - span.offsetTop)
+        //     coordinates.top = 'auto'
+        // }
 
         menuIsOffScreen = this.isMenuOffScreen(coordinates, menuDimensions)
         if (menuIsOffScreen.left) {
@@ -589,19 +589,19 @@ class TributeRange {
             coordinates.right = windowWidth - rect.left - windowLeft
         }
 
-        let parentHeight = this.tribute.menuContainer
-            ? this.tribute.menuContainer.offsetHeight
-            : this.getDocument().body.offsetHeight
+        // let parentHeight = this.tribute.menuContainer
+        //     ? this.tribute.menuContainer.offsetHeight
+        //     : this.getDocument().body.offsetHeight
 
-        if (menuIsOffScreen.bottom) {
-            let parentRect = this.tribute.menuContainer
-                ? this.tribute.menuContainer.getBoundingClientRect()
-                : this.getDocument().body.getBoundingClientRect()
-            let scrollStillAvailable = parentHeight - (windowHeight - parentRect.top)
+        // if (menuIsOffScreen.bottom) {
+        //     let parentRect = this.tribute.menuContainer
+        //         ? this.tribute.menuContainer.getBoundingClientRect()
+        //         : this.getDocument().body.getBoundingClientRect()
+        //     let scrollStillAvailable = parentHeight - (windowHeight - parentRect.top)
 
-            coordinates.top = 'auto'
-            coordinates.bottom = scrollStillAvailable + (windowHeight - rect.top)
-        }
+        //     coordinates.top = 'auto'
+        //     coordinates.bottom = scrollStillAvailable + (windowHeight - rect.top)
+        // }
 
         menuIsOffScreen = this.isMenuOffScreen(coordinates, menuDimensions)
         if (menuIsOffScreen.left) {

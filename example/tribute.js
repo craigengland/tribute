@@ -66,7 +66,7 @@
     if (typeof o === "string") return _arrayLikeToArray(o, minLen);
     var n = Object.prototype.toString.call(o).slice(8, -1);
     if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Map" || n === "Set") return Array.from(o);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
   }
 
@@ -142,16 +142,16 @@
         element.boundKeydown = this.keydown.bind(element, this);
         element.boundKeyup = this.keyup.bind(element, this);
         element.boundInput = this.input.bind(element, this);
-        element.addEventListener("keydown", element.boundKeydown, false);
-        element.addEventListener("keyup", element.boundKeyup, false);
-        element.addEventListener("input", element.boundInput, false);
+        element.addEventListener("keydown", element.boundKeydown, true);
+        element.addEventListener("keyup", element.boundKeyup, true);
+        element.addEventListener("input", element.boundInput, true);
       }
     }, {
       key: "unbind",
       value: function unbind(element) {
-        element.removeEventListener("keydown", element.boundKeydown, false);
-        element.removeEventListener("keyup", element.boundKeyup, false);
-        element.removeEventListener("input", element.boundInput, false);
+        element.removeEventListener("keydown", element.boundKeydown, true);
+        element.removeEventListener("keyup", element.boundKeyup, true);
+        element.removeEventListener("input", element.boundInput, true);
         delete element.boundKeydown;
         delete element.boundKeyup;
         delete element.boundInput;
@@ -1042,16 +1042,18 @@
         if (menuIsOffScreen.right) {
           coordinates.right = windowWidth - coordinates.left;
           coordinates.left = 'auto';
-        }
+        } // let parentHeight = this.tribute.menuContainer
+        //     ? this.tribute.menuContainer.offsetHeight
+        //     : this.getDocument().body.offsetHeight
+        // if (menuIsOffScreen.bottom) {
+        //     let parentRect = this.tribute.menuContainer
+        //         ? this.tribute.menuContainer.getBoundingClientRect()
+        //         : this.getDocument().body.getBoundingClientRect()
+        //     let scrollStillAvailable = parentHeight - (windowHeight - parentRect.top)
+        //     coordinates.bottom = scrollStillAvailable + (windowHeight - rect.top - span.offsetTop)
+        //     coordinates.top = 'auto'
+        // }
 
-        var parentHeight = this.tribute.menuContainer ? this.tribute.menuContainer.offsetHeight : this.getDocument().body.offsetHeight;
-
-        if (menuIsOffScreen.bottom) {
-          var parentRect = this.tribute.menuContainer ? this.tribute.menuContainer.getBoundingClientRect() : this.getDocument().body.getBoundingClientRect();
-          var scrollStillAvailable = parentHeight - (windowHeight - parentRect.top);
-          coordinates.bottom = scrollStillAvailable + (windowHeight - rect.top - span.offsetTop);
-          coordinates.top = 'auto';
-        }
 
         menuIsOffScreen = this.isMenuOffScreen(coordinates, menuDimensions);
 
@@ -1095,16 +1097,18 @@
         if (menuIsOffScreen.right) {
           coordinates.left = 'auto';
           coordinates.right = windowWidth - rect.left - windowLeft;
-        }
+        } // let parentHeight = this.tribute.menuContainer
+        //     ? this.tribute.menuContainer.offsetHeight
+        //     : this.getDocument().body.offsetHeight
+        // if (menuIsOffScreen.bottom) {
+        //     let parentRect = this.tribute.menuContainer
+        //         ? this.tribute.menuContainer.getBoundingClientRect()
+        //         : this.getDocument().body.getBoundingClientRect()
+        //     let scrollStillAvailable = parentHeight - (windowHeight - parentRect.top)
+        //     coordinates.top = 'auto'
+        //     coordinates.bottom = scrollStillAvailable + (windowHeight - rect.top)
+        // }
 
-        var parentHeight = this.tribute.menuContainer ? this.tribute.menuContainer.offsetHeight : this.getDocument().body.offsetHeight;
-
-        if (menuIsOffScreen.bottom) {
-          var parentRect = this.tribute.menuContainer ? this.tribute.menuContainer.getBoundingClientRect() : this.getDocument().body.getBoundingClientRect();
-          var scrollStillAvailable = parentHeight - (windowHeight - parentRect.top);
-          coordinates.top = 'auto';
-          coordinates.bottom = scrollStillAvailable + (windowHeight - rect.top);
-        }
 
         menuIsOffScreen = this.isMenuOffScreen(coordinates, menuDimensions);
 
@@ -1547,10 +1551,8 @@
       key: "ensureEditable",
       value: function ensureEditable(element) {
         if (Tribute.inputTypes().indexOf(element.nodeName) === -1) {
-          if (element.contentEditable) {
-            element.contentEditable = true;
-          } else {
-            throw new Error("[Tribute] Cannot bind to " + element.nodeName);
+          if (!element.contentEditable) {
+            throw new Error("[Tribute] Cannot bind to " + element.nodeName + ", not contentEditable");
           }
         }
       }
